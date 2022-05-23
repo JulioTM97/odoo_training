@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="estate_type_action" model="ir.actions.act_window">
+        <field name="name">Type_of_Real_Estate</field>
+        <field name="res_model">estate.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="estate_type_root" name="Testf">
+        <menuitem id="estate_type_first_level_menu" name="First Level">
+            <menuitem id="estate_type_menu_action" action="estate_type_action"/>
+        </menuitem>
+    </menuitem>   
+
+    <record id="estate_type_view_tree" model="ir.ui.view">
+        <field name="name">estate.type.tree</field>
+        <field name="model">estate.type</field>
+        <field name="arch" type="xml">
+            <tree string="Xstring">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record> 
+
+</odoo>
