@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="estate_buyer_action" model="ir.actions.act_window">
+        <field name="name">Buyer</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- el atributo parent es para asociar los menus, el valor que se le da es el id del otro menu-->
+    <!-- <menuitem id="estate_type_first_level_menu" name="Settings" parent="test_menu_root">
+        <menuitem id="estate_type_first_level_menu" name="Property Types" action="estate_type_action"/>
+    </menuitem>    -->
+
+</odoo>

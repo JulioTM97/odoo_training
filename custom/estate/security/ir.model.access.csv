@@ -1,3 +1,7 @@
 id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
 access_test_model,access_test_model,model_test_model,base.group_user,1,1,1,1
 access_estate_type,access_estate_type,model_estate_type,base.group_user,1,1,1,1
+access_estate_buyer,access_estate_buyer,model_res_partner,base.group_user,1,1,1,1
+access_estate_salesperson, access_estate_salesperson,model_res_users,base.group_user,1,1,1,1
+access_estate_tag,access_estate_tag,model_property_tag,base.group_user,1,1,1,1
+access_estate_offer,access_estate_offer,model_property_offer,base.group_user,1,1,1,1

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="estate_salesperson_action" model="ir.actions.act_window">
+        <field name="name">Salesperson</field>
+        <field name="res_model">res.users</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- el atributo parent es para asociar los menus, el valor que se le da es el id del otro menu-->
+
+</odoo>

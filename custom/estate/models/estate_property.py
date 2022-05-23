@@ -8,7 +8,7 @@ class TestModel(models.Model):
     _description = "Test Model"
 
     name = fields.Char(string="Title")
-    description = fields.Text()
+    description = fields.Text(copy=False)
     postcode = fields.Char()
     date_availability = fields.Date(copy=False, default= lambda self: date.today() + relativedelta(months=3), string="Availability From")
     expected_price = fields.Float()
@@ -31,3 +31,7 @@ class TestModel(models.Model):
         default = "new"
     )
     type_id = fields.Many2one("estate.type", string="Type of Property")
+    salesman_id = fields.Many2one("res.users", string="Salesman", default=lambda self: self.env.user, copy=False)
+    buyer_id = fields.Many2one("res.partner", string="Buyer", copy=False)
+    tag_ids = fields.Many2many("property.tag", string="Tags")
+    offer_ids = fields.One2many("property.offer","property_id")
