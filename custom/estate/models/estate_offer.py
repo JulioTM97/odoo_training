@@ -34,4 +34,15 @@ class PropertyOffer(models.Model):
                 #validity_days debe ser un objeto date
                 validity_days = record.date_deadline - record.create_date.date()
                 record.validity = validity_days.days
-        
+    
+    def action_accept_offer(self):
+        for record in self:
+            record.status = "accepted"
+            record.property_id.selling_price = record.price
+            record.property_id.buyer_id = record.partner_id
+        return True
+
+    def action_refuse_offer(self):
+        for record in self:
+            record.status = "refused"
+        return True

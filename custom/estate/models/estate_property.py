@@ -1,3 +1,4 @@
+from ast import Pass
 from datetime import date, timedelta
 from dateutil.relativedelta import relativedelta
 
@@ -58,3 +59,18 @@ class TestModel(models.Model):
             self.garden_area = 0
             self.garden_orientation = False
 
+    def action_sold(self):
+        for record in self:
+            if record.state == "canceled":
+                raise UserError("A canceled property cannot be sold")
+            else:
+                record.state = "sold"
+        return True
+
+    def action_cancel(self):
+        for record in self:
+            if record.state == "sold":
+                raise UserError("A sold property cannot be canceled.")
+            else:
+                record.state = "canceled"
+        return True
