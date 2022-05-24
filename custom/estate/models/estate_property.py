@@ -1,7 +1,8 @@
 from datetime import date, timedelta
 from dateutil.relativedelta import relativedelta
 
-from odoo import fields, models
+from odoo import api, fields, models
+from odoo.exceptions import UserError
 
 class TestModel(models.Model):
     _name = "test.model"
@@ -35,3 +36,25 @@ class TestModel(models.Model):
     buyer_id = fields.Many2one("res.partner", string="Buyer", copy=False)
     tag_ids = fields.Many2many("property.tag", string="Tags")
     offer_ids = fields.One2many("property.offer","property_id")
+    total_area = fields.Float(compute="_compute_total_area")
+    best_offer = fields.Float(compute="_compute_best_offer")
+    
+    @api.depends("garden_area","living_area")
+    def _compute_total_area(self):
+            for record in self:
+                record.total_area = record.garden_area + record.living_area
+
+    @api.depends("offer_ids.price")
+    def _compute_best_offer(self):
+            for record in self:
+                record.best_offer = max(record.offer_ids.mapped("price") or [0])
+
+    @api.onchange("garden")
+    def _onchange_garden(self):
+        if self.garden:
+            self.garden_area = 10
+            self.garden_orientation = "north"
+        else:
+            self.garden_area = 0
+            self.garden_orientation = False
+
