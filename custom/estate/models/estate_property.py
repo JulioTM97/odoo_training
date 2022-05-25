@@ -1,7 +1,6 @@
-from ast import Pass
-from datetime import date, timedelta
+from datetime import date
 from dateutil.relativedelta import relativedelta
-import re
+
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
@@ -9,6 +8,7 @@ from odoo.exceptions import UserError, ValidationError
 class TestModel(models.Model):
     _name = "test.model"
     _description = "Test Model"
+    _order = "id desc"
 
     name = fields.Char(string="Title")
     description = fields.Text(copy=False)
@@ -29,7 +29,13 @@ class TestModel(models.Model):
     )
     active = fields.Boolean("Active", default=True)
     state = fields.Selection(
-        selection = [("new","New"),("offer","Offer"),("received","Received"),("offer received","Offer Accepted"),("sold","Sold"),("canceled","Canceled")],
+        selection = [("new","New"),
+        ("offer","Offer"),
+        ("received","Received"),
+        ("offer received","Offer Received"),
+        ("offer accepted","Offer Accepted"),
+        ("sold","Sold"),
+        ("canceled","Canceled")],
         help = "Property status",
         default = "new"
     )

@@ -11,6 +11,19 @@
     id="estate_tag_menu_action" 
     name="Property Tag" 
     parent="estate_type_first_level_menu" 
-    action="estate_type_action"/>
+    action="estate_tag_action"/>
+
+    <record id="estate_tag_view_tree" model="ir.ui.view">
+        <field name="name">estate.tag.tree</field>
+        <field name="model">property.tag</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name" string="Property type"/>
+            </tree>
+        </field>
+    </record>
+
+
+    
 
 </odoo>
