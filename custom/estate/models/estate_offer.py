@@ -18,6 +18,10 @@ class PropertyOffer(models.Model):
     validity = fields.Integer(default=7, required=True)
     date_deadline = fields.Date(compute="_compute_date_deadline", inverse="_inverse_date_deadline", string="Deadline")
 
+    _sql_constraints = [
+        ('check_price','CHECK (price >= 0)', 'The offer price must be a positive number.')
+    ]
+
     @api.depends("validity", "create_date")
     def _compute_date_deadline(self):
         for record in self:

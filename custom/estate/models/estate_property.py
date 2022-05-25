@@ -1,9 +1,10 @@
 from ast import Pass
 from datetime import date, timedelta
 from dateutil.relativedelta import relativedelta
+import re
 
 from odoo import api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 class TestModel(models.Model):
     _name = "test.model"
@@ -39,6 +40,11 @@ class TestModel(models.Model):
     offer_ids = fields.One2many("property.offer","property_id")
     total_area = fields.Float(compute="_compute_total_area")
     best_offer = fields.Float(compute="_compute_best_offer")
+
+    _sql_constraints = [
+        ('check_expected_price', 'CHECK (expected_price >= 0)', 'The expected price must be a positive number.'),
+        ('check_selling_price', 'CHECK (selling_price >= 0)', 'The selling price must be a positive number.')
+    ]
     
     @api.depends("garden_area","living_area")
     def _compute_total_area(self):
@@ -74,3 +80,10 @@ class TestModel(models.Model):
             else:
                 record.state = "canceled"
         return True
+
+    @api.constrains('selling_price')
+    def _check_selling_price(self):
+        for record in self:
+            min_selling_price = record.expected_price * 0.9
+            if record.selling_price < min_selling_price:
+                raise ValidationError('The sale price must be at least 90% of the expected price.')
