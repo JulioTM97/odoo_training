@@ -18,6 +18,7 @@ class PropertyOffer(models.Model):
     property_id = fields.Many2one("test.model", required=True)
     validity = fields.Integer(default=7, required=True)
     date_deadline = fields.Date(compute="_compute_date_deadline", inverse="_inverse_date_deadline", string="Deadline")
+    property_type_id = fields.Many2one(related="property_id.type_id", store=True)
 
     _sql_constraints = [
         ('check_price','CHECK (price >= 0)', 'The offer price must be a positive number.')
@@ -45,6 +46,7 @@ class PropertyOffer(models.Model):
             record.status = "accepted"
             record.property_id.selling_price = record.price
             record.property_id.buyer_id = record.partner_id
+            record.property_id.state = 'offer accepted'
         return True
 
     def action_refuse_offer(self):
