@@ -2,6 +2,7 @@ from datetime import date
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models
+from odoo.exceptions import UserError, ValidationError
 
 class PropertyOffer(models.Model):
     _name = "property.offer"
@@ -53,3 +54,11 @@ class PropertyOffer(models.Model):
         for record in self:
             record.status = "refused"
         return True
+
+    @api.model
+    def create(self,vals):
+        estate_property = self.env['test.model'].browse(vals['property_id'])
+        if estate_property.best_offer > vals['price']:
+            raise UserError('You have to improve the offer.')
+        estate_property.state = 'offer received'
+        return super().create(vals)

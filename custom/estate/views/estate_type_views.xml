@@ -36,13 +36,14 @@
                     <button class="oe_stat_button" 
                     type="action" 
                     name="%(estate.estate_offer_action)d" 
-                    icon="fa-money" 
-                    string='Offers'>
-                        <field name="offer_count" class="oe_inline" widget='statinfo'/>
+                    icon="fa-money">
+                        <!-- <span class="o_stat_text">Offers: </span> -->
+                            <field name="offer_count" class="oe_inline" widget='statinfo' string='Offers'/>
                     </button>
                 </div>
-                <field name="offer_count" class="oe_inline"/>
+                <h1>
                     <field name="name"/>
+                </h1>
                     <field name="property_ids">
                         <tree>
                             <field name="name"/>

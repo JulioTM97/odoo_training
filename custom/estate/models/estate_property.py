@@ -71,11 +71,6 @@ class TestModel(models.Model):
             self.garden_area = 0
             self.garden_orientation = False
 
-    @api.onchange("offer_ids")
-    def _onchange_offer_ids(self):
-        if len(self.mapped("offer_ids"))>0:
-            self.state = 'offer received'
-
     def action_sold(self):
         for record in self:
             if record.state == "canceled":
@@ -98,3 +93,10 @@ class TestModel(models.Model):
             min_selling_price = record.expected_price * 0.9
             if record.selling_price < min_selling_price:
                 raise ValidationError('The sale price must be at least 90% of the expected price.')
+    
+    @api.model
+    def update(self):
+        for record in self:
+            if record.state == 'new' or record.state == 'canceled':
+                self.super().unlink()
+
