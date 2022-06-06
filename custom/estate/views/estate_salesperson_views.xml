@@ -1,11 +1,22 @@
 <?xml version="1.0"?>
 <odoo>
-    <record id="estate_salesperson_action" model="ir.actions.act_window">
-        <field name="name">Salesperson</field>
-        <field name="res_model">res.users</field>
-        <field name="view_mode">tree,form</field>
-    </record>
 
-    <!-- el atributo parent es para asociar los menus, el valor que se le da es el id del otro menu-->
+    <record id="res_users_view_form_inherit" model="ir.ui.view">
+        <field name="name">res.users.form.inherit</field>
+        <field name="model">res.users</field>
+        <!--ref es la vista de la que se va a heredar-->
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <!--pongo el tipo de etiqueta (field/page) con su nombre 
+            y en que posicion quiero insertar-->
+            <xpath expr="//page[@name='preferences']" position="after">
+                <page string='Real Estate Property'>
+                    <tree>
+                        <field name='property_ids'/>     
+                    </tree>
+                </page>
+            </xpath>
+        </field>
+    </record>
 
 </odoo>

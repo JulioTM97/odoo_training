@@ -1,7 +1,7 @@
 {
     "name":"Real Estate",
     "version":"1.0",
-    "category": "Sales",
+    "category": "sales",
     "summary": "Real Estate for sales and rent",
     "description":"This is a new wonderfull module",
     "depends":["base"],

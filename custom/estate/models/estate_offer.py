@@ -56,7 +56,9 @@ class PropertyOffer(models.Model):
         return True
 
     @api.model
+    #vals es un diccionario que contiene el registro que se esta creando (en este caso)
     def create(self,vals):
+        #esto devuelve un objeto
         estate_property = self.env['test.model'].browse(vals['property_id'])
         if estate_property.best_offer > vals['price']:
             raise UserError('You have to improve the offer.')

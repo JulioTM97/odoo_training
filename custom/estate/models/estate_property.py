@@ -6,6 +6,8 @@ from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
 class TestModel(models.Model):
+    #En la base de datos se crea una tabla con el nombre usado dentro de "_name".
+    #pero los puntos son reemplazados por guiones bajos.
     _name = "test.model"
     _description = "Test Model"
     _order = "id desc"
@@ -43,15 +45,19 @@ class TestModel(models.Model):
     salesman_id = fields.Many2one("res.users", string="Salesman", default=lambda self: self.env.user, copy=False)
     buyer_id = fields.Many2one("res.partner", string="Buyer", copy=False)
     tag_ids = fields.Many2many("property.tag", string="Tags")
+
+    #One2many, se pone el modelo objetivo y luego el campo que apunta a este modelo actual.
     offer_ids = fields.One2many("property.offer","property_id")
     total_area = fields.Float(compute="_compute_total_area")
     best_offer = fields.Float(compute="_compute_best_offer")
 
+    #nombre de la restriccion, evaluacion de la restriccion, mensaje de la restriccion.
     _sql_constraints = [
         ('check_expected_price', 'CHECK (expected_price >= 0)', 'The expected price must be a positive number.'),
         ('check_selling_price', 'CHECK (selling_price >= 0)', 'The selling price must be a positive number.')
     ]
     
+
     @api.depends("garden_area","living_area")
     def _compute_total_area(self):
             for record in self:
@@ -64,12 +70,13 @@ class TestModel(models.Model):
 
     @api.onchange("garden")
     def _onchange_garden(self):
-        if self.garden:
-            self.garden_area = 10
-            self.garden_orientation = "north"
-        else:
-            self.garden_area = 0
-            self.garden_orientation = False
+        for record in self:
+            if record.garden:
+                record.garden_area = 10
+                record.garden_orientation = "north"
+            else:
+                record.garden_area = 0
+                record.garden_orientation = False
 
     def action_sold(self):
         for record in self:
